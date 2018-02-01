@@ -1,41 +1,41 @@
-#include "gg.h"
+ï»¿#include "gg.h"
 using namespace gg;
 
 #include "object.h"
 
 //
-// ’¸“_”z—ñƒIƒuƒWƒFƒNƒg‚Ìì¬
+// é ‚ç‚¹é…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 //
-//   vertices: ’¸“_”
-//   position: ’¸“_‚Ì“ñŸŒ³ˆÊ’u (GLfloat[3] ‚Ì”z—ñ)
-//   lines: ü•ª”
-//   index: ü•ª‚Ì’¸“_ƒCƒ“ƒfƒbƒNƒX
-//   –ß‚è’l: ì¬‚³‚ê‚½’¸“_”z—ñƒIƒuƒWƒFƒNƒg–¼
+//   vertices: é ‚ç‚¹æ•°
+//   position: é ‚ç‚¹ã®äºŒæ¬¡å…ƒä½ç½® (GLfloat[3] ã®é…åˆ—)
+//   lines: ç·šåˆ†æ•°
+//   index: ç·šåˆ†ã®é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+//   æˆ»ã‚Šå€¤: ä½œæˆã•ã‚ŒãŸé ‚ç‚¹é…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
 //
 GLuint createObject(GLuint vertices, const GLfloat (*position)[3], GLuint lines, const GLuint *index)
 {
-  // ’¸“_”z—ñƒIƒuƒWƒFƒNƒg
+  // é ‚ç‚¹é…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
   GLuint vao;
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-  // ’¸“_ƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg
+  // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
   GLuint vbo;
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof (GLfloat[3]) * vertices, position, GL_STATIC_DRAW);
 
-  // ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg
+  // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
   GLuint ibo;
   glGenBuffers(1, &ibo);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof (GLuint) * lines, index, GL_STATIC_DRAW);
 
-  // Œ‹‡‚³‚ê‚Ä‚¢‚é’¸“_ƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ğ in •Ï”‚©‚çQÆ‚Å‚«‚é‚æ‚¤‚É‚·‚é
+  // çµåˆã•ã‚Œã¦ã„ã‚‹é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ in å¤‰æ•°ã‹ã‚‰å‚ç…§ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(0);
 
-  // ’¸“_”z—ñƒIƒuƒWƒFƒNƒg‚ÌŒ‹‡‚ğ‰ğœ‚µ‚½Œã‚É’¸“_ƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ÆƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ÌŒ‹‡‚ğ‰ğœ‚·‚é
+  // é ‚ç‚¹é…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çµåˆã‚’è§£é™¤ã—ãŸå¾Œã«é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çµåˆã‚’è§£é™¤ã™ã‚‹
   glBindVertexArray(0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

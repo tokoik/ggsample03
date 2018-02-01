@@ -1,198 +1,38 @@
-// ƒEƒBƒ“ƒhƒEŠÖ˜A‚Ìˆ—
-#include "Window.h"
+ï»¿//
+// ãƒ¡ã‚¤ãƒ³ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
+//
 
-// ƒVƒF[ƒ_[ŠÖ˜A‚Ìˆ—
-#include "shader.h"
+// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒœãƒƒã‚¯ã‚¹ã®è¡¨ç¤ºã®æº–å‚™
+#if defined(_WIN32)
+#  include <Windows.h>
+#  include <atlstr.h>  
+#endif
 
-// ƒIƒuƒWƒFƒNƒgŠÖ˜A‚Ìˆ—
-#include "object.h"
+// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³æœ¬ä½“
+#include "GgApplication.h"
 
 //
-// ’PˆÊs—ñ‚ğİ’è‚·‚é
+// ãƒ¡ã‚¤ãƒ³ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 //
-//   m: ’PˆÊs—ñ‚ğŠi”[‚·‚é”z—ñ
-//
-static void loadIdentity(GLfloat *m)
+int main() try
 {
-  m[ 0] = m[ 5] = m[10] = m[15] = 1.0f;
-  m[ 1] = m[ 2] = m[ 3] = m[ 4] =
-  m[ 6] = m[ 7] = m[ 8] = m[ 9] =
-  m[11] = m[12] = m[13] = m[14] = 0.0f;
+  // ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³æœ¬ä½“
+  GgApplication app;
+
+  // ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å®Ÿè¡Œã™ã‚‹
+  app.run();
 }
-
-//
-// ’¼Œğ“Š‰e•ÏŠ·s—ñ‚ğ‹‚ß‚é
-//
-//   m: ’¼Œğ“Š‰e•ÏŠ·s—ñ‚ğŠi”[‚·‚é”z—ñ
-//   left, right: ƒrƒ…[ƒ{ƒŠƒ…[ƒ€‚Ì¶‰E’[
-//   bottom, top: ƒrƒ…[ƒ{ƒŠƒ…[ƒ€‚Ìã‰º’[
-//   zNear, zFar: ‘O•û–Ê‚¨‚æ‚ÑŒã•û–Ê‚Ü‚Å‚Ì‹——£
-//
-static void ortho(GLfloat *m, float left, float right, float bottom, float top, float zNear, float zFar)
+catch (const std::exception &e)
 {
-  m[ 0] =  2.0f / (right - left);
-  m[ 5] =  2.0f / (top - bottom);
-  m[10] = -2.0f / (zFar - zNear);
-  m[12] = -(right + left) / (right - left);
-  m[13] = -(top + bottom) / (top - bottom);
-  m[14] = -(zFar + zNear) / (zFar - zNear);
-  m[15] =  1.0f;
-  m[ 1] = m[ 2] = m[ 3] = m[ 4] = m[ 6] = m[ 7] = m[ 8] = m[ 9] = m[11] = 0.0f;
-}
+  // ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹
+#if defined(_WIN32)
+  const CStringW message(e.what());
+  MessageBox(NULL, LPCWSTR(message), TEXT("ã‚²ãƒ¼ãƒ ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ç‰¹è«–"), MB_OK | MB_ICONERROR);
+#else
+  std::cerr << e.what() << "\n\n[Type enter key] ";
+  std::cin.get();
+#endif
 
-//
-// “§‹“Š‰e•ÏŠ·s—ñ‚ğ‹‚ß‚é
-//
-//   m: “§‹“Š‰e•ÏŠ·s—ñ‚ğŠi”[‚·‚é”z—ñ
-//   left, right: ‘O•û–Ê‚Ì¶‰E’[
-//   bottom, top: ‘O•û–Ê‚Ìã‰º’[
-//   zNear, zFar: ‘O•û–Ê‚¨‚æ‚ÑŒã•û–Ê‚Ü‚Å‚Ì‹——£
-//
-static void frustum(GLfloat *m, float left, float right, float bottom, float top, float zNear, float zFar)
-{
-  m[ 0] =  2.0f * zNear / (right - left);
-  m[ 5] =  2.0f * zNear / (top - bottom);
-  m[ 8] =  (right + left) / (right - left);
-  m[ 9] =  (top + bottom) / (top - bottom);
-  m[10] = -(zFar + zNear) / (zFar - zNear);
-  m[11] = -1.0f;
-  m[14] = -2.0f * zFar * zNear / (zFar - zNear);
-  m[ 1] = m[ 2] = m[ 3] = m[ 4] = m[ 6] = m[ 7] = m[12] = m[13] = m[15] = 0.0f;
-}
-
-//
-// ‰æŠp‚ğw’è‚µ‚Ä“§‹“Š‰e•ÏŠ·s—ñ‚ğ‹‚ß‚é
-//
-//   m: “§‹“Š‰e•ÏŠ·s—ñ‚ğŠi”[‚·‚é”z—ñ
-//   fovy: ‰æŠpiƒ‰ƒWƒAƒ“j
-//   aspect: ƒEƒBƒ“ƒhƒE‚Ìc‰¡”ä
-//   zNear, zFar: ‘O•û–Ê‚¨‚æ‚ÑŒã•û–Ê‚Ü‚Å‚Ì‹——£
-//
-static void perspective(GLfloat *m, float fovy, float aspect, float zNear, float zFar)
-{
-  // yh‘èz‚±‚±‚ğ‰ğ“š‚µ‚Ä‚­‚¾‚³‚¢iloadIdentity() ‚ğ’u‚«Š·‚¦‚Ä‚­‚¾‚³‚¢j
-  loadIdentity(m);
-}
-
-//
-// ƒrƒ…[•ÏŠ·s—ñ‚ğ‹‚ß‚é
-//
-//   m: ƒrƒ…[•ÏŠ·s—ñ‚ğŠi”[‚·‚é”z—ñ
-//   ex, ey, ez: ‹“_‚ÌˆÊ’u
-//   tx, ty, tz: –Ú•W“_‚ÌˆÊ’u
-//   ux, uy, uz: ã•ûŒü‚ÌƒxƒNƒgƒ‹
-//
-static void lookat(GLfloat *m, float ex, float ey, float ez, float tx, float ty, float tz, float ux, float uy, float uz)
-{
-  // yh‘èz‚±‚±‚ğ‰ğ“š‚µ‚Ä‚­‚¾‚³‚¢iloadIdentity() ‚ğ’u‚«Š·‚¦‚Ä‚­‚¾‚³‚¢j
-  loadIdentity(m);
-}
-
-//
-// 4 s 4 —ñ‚Ìs—ñ‚ÌÏ‚ğ‹‚ß‚é
-//
-//   m © m1 ~ m2
-//
-static void multiply(GLfloat *m, const GLfloat *m1, const GLfloat *m2)
-{
-  for (int i = 0; i < 16; ++i)
-  {
-    int j = i & 3, k = i & ~3;
-
-    // ”z—ñ•Ï”‚És—ñ‚ª“]’u‚³‚ê‚½ó‘Ô‚ÅŠi”[‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğl—¶‚µ‚Ä‚¢‚é
-    m[i] = m1[0 + j] * m2[k + 0] + m1[4 + j] * m2[k + 1] + m1[8 + j] * m2[k + 2] + m1[12 + j] * m2[k + 3];
-  }
-}
-
-//
-// ƒƒCƒ“ƒvƒƒOƒ‰ƒ€
-//
-int main()
-{
-  // ƒEƒBƒ“ƒhƒE‚ğì¬‚·‚é
-  Window window("ggsample03");
-
-  // ”wŒiF‚ğw’è‚·‚é
-  glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-
-  // ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚Ìì¬
-  const GLuint program(loadProgram("simple.vert", "pv", "simple.frag", "fc"));
-
-  // uniform •Ï”‚ÌƒCƒ“ƒfƒbƒNƒX‚ÌŒŸõiŒ©‚Â‚©‚ç‚È‚¯‚ê‚Î -1j
-  const GLint mcLoc(glGetUniformLocation(program, "mc"));
-
-  // ƒrƒ…[•ÏŠ·s—ñ‚ğ mv ‚É‹‚ß‚é
-  GLfloat mv[16];
-  lookat(mv, 3.0f, 4.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-
-  // ’¸“_‘®«
-  static const GLfloat position[][3] =
-  {
-    { -0.9f, -0.9f, -0.9f },  // (0)
-    {  0.9f, -0.9f, -0.9f },  // (1)
-    {  0.9f, -0.9f,  0.9f },  // (2)
-    { -0.9f, -0.9f,  0.9f },  // (3)
-    { -0.9f,  0.9f, -0.9f },  // (4)
-    {  0.9f,  0.9f, -0.9f },  // (5)
-    {  0.9f,  0.9f,  0.9f },  // (6)
-    { -0.9f,  0.9f,  0.9f },  // (7)
-  };
-  static const int vertices(sizeof position / sizeof position[0]);
-
-  // ’¸“_ƒCƒ“ƒfƒbƒNƒX
-  static const GLuint index[] =
-  {
-    0, 1,
-    1, 2,
-    2, 3,
-    3, 0,
-    0, 4,
-    1, 5,
-    2, 6,
-    3, 7,
-    4, 5,
-    5, 6,
-    6, 7,
-    7, 4,
-  };
-  static const GLuint lines(sizeof index / sizeof index[0]);
-
-  // ’¸“_”z—ñƒIƒuƒWƒFƒNƒg‚Ìì¬
-  const GLuint vao(createObject(vertices, position, lines, index));
-
-  // ƒEƒBƒ“ƒhƒE‚ªŠJ‚¢‚Ä‚¢‚éŠÔŒJ‚è•Ô‚·
-  while (window.shouldClose() == GL_FALSE)
-  {
-    // ƒEƒBƒ“ƒhƒE‚ğÁ‹‚·‚é
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    // ƒVƒF[ƒ_ƒvƒƒOƒ‰ƒ€‚Ìg—pŠJn
-    glUseProgram(program);
-
-    // “Š‰e•ÏŠ·s—ñ mp ‚ğ‹‚ß‚é (window.getAspect() ‚ÍƒEƒBƒ“ƒhƒE‚Ìc‰¡”ä)
-    GLfloat mp[16];
-    perspective(mp, 0.5f, window.getAspect(), 1.0f, 15.0f);
-
-    // “Š‰e•ÏŠ·s—ñ mp ‚Æƒrƒ…[•ÏŠ·s—ñ mv ‚ÌÏ‚ğ•ÏŠ·s—ñ mc ‚É‹‚ß‚é
-    GLfloat mc[16];
-    multiply(mc, mp, mv);
-
-    // uniform •Ï” mc ‚É•ÏŠ·s—ñ mc ‚ğİ’è‚·‚é
-    // yh‘èz‚±‚±‚ğ‰ğ“š‚µ‚Ä‚­‚¾‚³‚¢iuniform •Ï” mc ‚ÌƒCƒ“ƒfƒbƒNƒX‚Í•Ï” mcLoc ‚É“ü‚Á‚Ä‚¢‚Ü‚·j
-
-    // •`‰æ‚Ég‚¤’¸“_”z—ñƒIƒuƒWƒFƒNƒg‚Ìw’è
-    glBindVertexArray(vao);
-
-    // }Œ`‚Ì•`‰æ
-    glDrawElements(GL_LINES, lines, GL_UNSIGNED_INT, 0);
-
-    // ’¸“_”z—ñƒIƒuƒWƒFƒNƒg‚Ìw’è‰ğœ
-    glBindVertexArray(0);
-
-    // ƒVƒF[ƒ_ƒvƒƒOƒ‰ƒ€‚Ìg—pI—¹
-    glUseProgram(0);
-
-    // ƒJƒ‰[ƒoƒbƒtƒ@‚ğ“ü‚ê‘Ö‚¦‚ÄƒCƒxƒ“ƒg‚ğæ‚èo‚·
-    window.swapBuffers();
-  }
+  // ãƒ–ãƒ­ã‚°ãƒ©ãƒ ã‚’çµ‚äº†ã™ã‚‹
+  return EXIT_FAILURE;
 }

@@ -1,10 +1,10 @@
+ï»¿//
+// é ‚ç‚¹é…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 //
-// ’¸“_”z—ñƒIƒuƒWƒFƒNƒg‚Ìì¬
-//
-//   vertices: ’¸“_”
-//   position: ’¸“_‚Ì“ñŸŒ³ˆÊ’u (GLfloat[3] ‚Ì”z—ñ)
-//   lines: ü•ª”
-//   index: ü•ª‚Ì’¸“_ƒCƒ“ƒfƒbƒNƒX
-//   –ß‚è’l: ì¬‚³‚ê‚½’¸“_”z—ñƒIƒuƒWƒFƒNƒg–¼
+//   vertices: é ‚ç‚¹æ•°
+//   position: é ‚ç‚¹ã®äºŒæ¬¡å…ƒä½ç½® (GLfloat[3] ã®é…åˆ—)
+//   lines: ç·šåˆ†æ•°
+//   index: ç·šåˆ†ã®é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+//   æˆ»ã‚Šå€¤: ä½œæˆã•ã‚ŒãŸé ‚ç‚¹é…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
 //
 extern GLuint createObject(GLuint vertices, const GLfloat (*position)[3], GLuint lines, const GLuint *index);

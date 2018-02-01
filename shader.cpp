@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <fstream>
 #include <vector>
 
@@ -8,26 +8,26 @@ using namespace gg;
 #include "shader.h"
 
 //
-// ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒpƒCƒ‹Œ‹‰Ê‚ğ•\¦‚·‚é
+// ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«çµæœã‚’è¡¨ç¤ºã™ã‚‹
 //
-//   shader: ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg–¼
-//   str: ƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚ª”­¶‚µ‚½êŠ‚ğ¦‚·•¶š—ñ
-//   –ß‚è’l: ƒRƒ“ƒpƒCƒ‹‚É¬Œ÷‚µ‚Ä‚¢‚½‚ç GL_TRUE
+//   shader: ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
+//   str: ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´æ‰€ã‚’ç¤ºã™æ–‡å­—åˆ—
+//   æˆ»ã‚Šå€¤: ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«æˆåŠŸã—ã¦ã„ãŸã‚‰ GL_TRUE
 //
 static GLboolean printShaderInfoLog(GLuint shader, const char *str)
 {
-  // ƒRƒ“ƒpƒCƒ‹Œ‹‰Ê‚ğæ“¾‚·‚é
+  // ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«çµæœã‚’å–å¾—ã™ã‚‹
   GLint status;
   glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
   if (status == GL_FALSE) std::cerr << "Compile Error in " << str << std::endl;
 
-  // ƒVƒF[ƒ_‚ÌƒRƒ“ƒpƒCƒ‹‚ÌƒƒO‚Ì’·‚³‚ğæ“¾‚·‚é
+  // ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã®ãƒ­ã‚°ã®é•·ã•ã‚’å–å¾—ã™ã‚‹
   GLsizei bufSize;
   glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &bufSize);
 
   if (bufSize > 1)
   {
-    // ƒVƒF[ƒ_‚ÌƒRƒ“ƒpƒCƒ‹‚ÌƒƒO‚Ì“à—e‚ğæ“¾‚·‚é
+    // ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã®ãƒ­ã‚°ã®å†…å®¹ã‚’å–å¾—ã™ã‚‹
     std::vector<GLchar> infoLog(bufSize);
     GLsizei length;
     glGetShaderInfoLog(shader, bufSize, &length, &infoLog[0]);
@@ -38,25 +38,25 @@ static GLboolean printShaderInfoLog(GLuint shader, const char *str)
 }
 
 //
-// ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒNŒ‹‰Ê‚ğ•\¦‚·‚é
+// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯çµæœã‚’è¡¨ç¤ºã™ã‚‹
 //
-//   program: ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg–¼
-//   –ß‚è’l: ƒŠƒ“ƒN‚É¬Œ÷‚µ‚Ä‚¢‚½‚ç GL_TRUE
+//   program: ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
+//   æˆ»ã‚Šå€¤: ãƒªãƒ³ã‚¯ã«æˆåŠŸã—ã¦ã„ãŸã‚‰ GL_TRUE
 //
 static GLboolean printProgramInfoLog(GLuint program)
 {
-  // ƒŠƒ“ƒNŒ‹‰Ê‚ğæ“¾‚·‚é
+  // ãƒªãƒ³ã‚¯çµæœã‚’å–å¾—ã™ã‚‹
   GLint status;
   glGetProgramiv(program, GL_LINK_STATUS, &status);
   if (status == GL_FALSE) std::cerr << "Link Error." << std::endl;
 
-  // ƒVƒF[ƒ_‚ÌƒŠƒ“ƒN‚ÌƒƒO‚Ì’·‚³‚ğæ“¾‚·‚é
+  // ã‚·ã‚§ãƒ¼ãƒ€ã®ãƒªãƒ³ã‚¯æ™‚ã®ãƒ­ã‚°ã®é•·ã•ã‚’å–å¾—ã™ã‚‹
   GLsizei bufSize;
   glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufSize);
 
   if (bufSize > 1)
   {
-    // ƒVƒF[ƒ_‚ÌƒŠƒ“ƒN‚ÌƒƒO‚Ì“à—e‚ğæ“¾‚·‚é
+    // ã‚·ã‚§ãƒ¼ãƒ€ã®ãƒªãƒ³ã‚¯æ™‚ã®ãƒ­ã‚°ã®å†…å®¹ã‚’å–å¾—ã™ã‚‹
     std::vector<GLchar> infoLog(bufSize);
     GLsizei length;
     glGetProgramInfoLog(program, bufSize, &length, &infoLog[0]);
@@ -67,30 +67,30 @@ static GLboolean printProgramInfoLog(GLuint program)
 }
 
 //
-// ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
 //
-//   vsrc: ƒo[ƒeƒbƒNƒXƒVƒF[ƒ_‚Ìƒ\[ƒXƒvƒƒOƒ‰ƒ€‚Ì•¶š—ñ
-//   pv: ƒo[ƒeƒbƒNƒXƒVƒF[ƒ_‚Ìƒ\[ƒXƒvƒƒOƒ‰ƒ€’†‚Ì in •Ï”–¼‚Ì•¶š—ñ
-//   fsrc: ƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_‚Ìƒ\[ƒXƒvƒƒOƒ‰ƒ€‚Ì•¶š—ñ
-//   fc: ƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_‚Ìƒ\[ƒXƒvƒƒOƒ‰ƒ€’†‚Ì out •Ï”–¼‚Ì•¶š—ñ
-//   vert: ƒo[ƒeƒbƒNƒXƒVƒF[ƒ_‚ÌƒRƒ“ƒpƒCƒ‹‚ÌƒƒbƒZ[ƒW‚É’Ç‰Á‚·‚é•¶š—ñ
-//   frag: ƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_‚ÌƒRƒ“ƒpƒCƒ‹‚ÌƒƒbƒZ[ƒW‚É’Ç‰Á‚·‚é•¶š—ñ
-//   –ß‚è’l: ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg–¼
+//   vsrc: ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®æ–‡å­—åˆ—
+//   pv: ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ—ãƒ­ã‚°ãƒ©ãƒ ä¸­ã® in å¤‰æ•°åã®æ–‡å­—åˆ—
+//   fsrc: ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®æ–‡å­—åˆ—
+//   fc: ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ—ãƒ­ã‚°ãƒ©ãƒ ä¸­ã® out å¤‰æ•°åã®æ–‡å­—åˆ—
+//   vert: ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«è¿½åŠ ã™ã‚‹æ–‡å­—åˆ—
+//   frag: ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«è¿½åŠ ã™ã‚‹æ–‡å­—åˆ—
+//   æˆ»ã‚Šå€¤: ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
 //
 GLuint createProgram(const char *vsrc, const char *pv, const char *fsrc, const char *fc,
   const char *vert, const char *frag)
 {
-  // ‹ó‚ÌƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+  // ç©ºã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
   const GLuint program(glCreateProgram());
 
   if (vsrc != NULL)
   {
-    // ƒo[ƒeƒbƒNƒXƒVƒF[ƒ_‚ÌƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+    // ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
     const GLuint vobj(glCreateShader(GL_VERTEX_SHADER));
     glShaderSource(vobj, 1, &vsrc, NULL);
     glCompileShader(vobj);
 
-    // ƒo[ƒeƒbƒNƒXƒVƒF[ƒ_‚ÌƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg‚ğƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚É‘g‚İ‚Ş
+    // ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«çµ„ã¿è¾¼ã‚€
     if (printShaderInfoLog(vobj, vert))
       glAttachShader(program, vobj);
     glDeleteShader(vobj);
@@ -98,105 +98,95 @@ GLuint createProgram(const char *vsrc, const char *pv, const char *fsrc, const c
 
   if (fsrc != NULL)
   {
-    // ƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_‚ÌƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+    // ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ã®ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
     const GLuint fobj(glCreateShader(GL_FRAGMENT_SHADER));
     glShaderSource(fobj, 1, &fsrc, NULL);
     glCompileShader(fobj);
 
-    // ƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_‚ÌƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg‚ğƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚É‘g‚İ‚Ş
+    // ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ã®ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«çµ„ã¿è¾¼ã‚€
     if (printShaderInfoLog(fobj, frag))
       glAttachShader(program, fobj);
     glDeleteShader(fobj);
   }
 
-  // ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚ğƒŠƒ“ƒN‚·‚é
+  // ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒªãƒ³ã‚¯ã™ã‚‹
   glBindAttribLocation(program, 0, pv);
   glBindFragDataLocation(program, 0, fc);
   glLinkProgram(program);
 
-  // ì¬‚µ‚½ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·
+  // ä½œæˆã—ãŸãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™
   if (printProgramInfoLog(program))
     return program;
 
-  // ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚ªì¬‚Å‚«‚È‚¯‚ê‚Î 0 ‚ğ•Ô‚·
+  // ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒä½œæˆã§ããªã‘ã‚Œã° 0 ã‚’è¿”ã™
   glDeleteProgram(program);
   return 0;
 }
 
 //
-// ƒVƒF[ƒ_‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚¾ƒƒ‚ƒŠ‚ğ•Ô‚·
+// ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã ãƒ¡ãƒ¢ãƒªã‚’è¿”ã™
 //
-//   name: ƒVƒF[ƒ_‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹–¼
-//   –ß‚è’l: ƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚¾ƒƒ‚ƒŠ‚Ìƒ|ƒCƒ“ƒ^
+//   name: ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«å
+//   æˆ»ã‚Šå€¤: ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã ãƒ¡ãƒ¢ãƒªã®ãƒã‚¤ãƒ³ã‚¿
 //
-static GLchar *readShaderSource(const char *name)
+static bool readShaderSource(const char *name, std::vector<GLchar> &src)
 {
-  // ƒtƒ@ƒCƒ‹–¼‚ª NULL ‚È‚ç NULL ‚ğ•Ô‚·
-  if (name == NULL) return NULL;
+  // ãƒ•ã‚¡ã‚¤ãƒ«åãŒ NULL ãªã‚‰ãã®ã¾ã¾æˆ»ã‚‹
+  if (name == NULL) return true;
 
-  // ƒ\[ƒXƒtƒ@ƒCƒ‹‚ğŠJ‚­
+  // ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
   std::ifstream file(name, std::ios::binary);
   if (file.fail())
   {
-    // ŠJ‚¯‚È‚©‚Á‚½
+    // é–‹ã‘ãªã‹ã£ãŸ
     std::cerr << "Error: Can't open source file: " << name << std::endl;
-    return NULL;
+    return false;
   }
 
-  // ƒtƒ@ƒCƒ‹‚Ì––”ö‚ÉˆÚ“®‚µŒ»İˆÊ’uiƒtƒ@ƒCƒ‹ƒTƒCƒYj‚ğ“¾‚é
+  // ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ«å°¾ã«ç§»å‹•ã™ã‚‹
   file.seekg(0L, std::ios::end);
-  GLsizei length(static_cast<GLsizei>(file.tellg()));
 
-  // ƒtƒ@ƒCƒ‹ƒTƒCƒY‚Ìƒƒ‚ƒŠ‚ğŠm•Û
-  GLchar *buffer(new(std::nothrow) GLchar[length + 1]);
-  if (buffer == NULL)
-  {
-    // ƒƒ‚ƒŠ‚ª‘«‚ç‚È‚©‚Á‚½
-    std::cerr << "Error: Too large file: " << name << std::endl;
-    file.close();
-    return NULL;
-  }
+  // ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚º (= ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ«å°¾ã®ä½ç½®) + 1 æ–‡å­—ã®ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ã™ã‚‹
+  src.resize(static_cast<GLsizei>(file.tellg()) + 1);
 
-  // ƒtƒ@ƒCƒ‹‚ğæ“ª‚©‚ç“Ç‚İ‚Ş
+  // ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å…ˆé ­ã‹ã‚‰èª­ã¿è¾¼ã‚€
   file.seekg(0L, std::ios::beg);
-  file.read(buffer, length);
-  buffer[length] = '\0';
+  file.read(src.data(), src.size());
+  src.push_back('\0');
 
+  // ãƒ•ã‚¡ã‚¤ãƒ«ãŒã†ã¾ãèª­ã¿è¾¼ã‚ãŸã‹ã©ã†ã‹ç¢ºã‹ã‚ã‚‹
   if (file.bad())
   {
-    // ‚¤‚Ü‚­“Ç‚İ‚ß‚È‚©‚Á‚½
+    // ã†ã¾ãèª­ã¿è¾¼ã‚ãªã‹ã£ãŸ
     std::cerr << "Error: Could not read souce file: " << name << std::endl;
-    delete[] buffer;
-    buffer = NULL;
+    file.close();
+    return false;
   }
-  file.close();
 
-  // “Ç‚İ‚ñ‚¾ƒ\[ƒXƒvƒƒOƒ‰ƒ€
-  return buffer;
+  // ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã¦æˆ»ã‚‹
+  file.close();
+  return true;
 }
 
 //
-// ƒVƒF[ƒ_‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+// ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
 //
-//   vert: ƒo[ƒeƒbƒNƒXƒVƒF[ƒ_‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹–¼
-//   pv: ƒo[ƒeƒbƒNƒXƒVƒF[ƒ_‚Ìƒ\[ƒXƒvƒƒOƒ‰ƒ€’†‚Ì in •Ï”–¼‚Ì•¶š—ñ
-//   frag: ƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹–¼
-//   fc: ƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_‚Ìƒ\[ƒXƒvƒƒOƒ‰ƒ€’†‚Ì out •Ï”–¼‚Ì•¶š—ñ
-//   –ß‚è’l: ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg–¼
+//   vert: ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«å
+//   pv: ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ—ãƒ­ã‚°ãƒ©ãƒ ä¸­ã® in å¤‰æ•°åã®æ–‡å­—åˆ—
+//   frag: ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«å
+//   fc: ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ—ãƒ­ã‚°ãƒ©ãƒ ä¸­ã® out å¤‰æ•°åã®æ–‡å­—åˆ—
+//   æˆ»ã‚Šå€¤: ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
 //
 GLuint loadProgram(const char *vert, const char *pv, const char *frag, const char *fc)
 {
-  // ƒVƒF[ƒ_‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
-  const GLchar *vsrc(readShaderSource(vert));
-  const GLchar *fsrc(readShaderSource(frag));
+  // ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
+  std::vector<GLchar> vsrc, fsrc;
+  if (readShaderSource(vert, vsrc) && readShaderSource(frag, fsrc))
+  {
+    // ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
+    return createProgram(vsrc.data(), pv, fsrc.data(), fc);
+  }
 
-  // ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
-  const GLuint program(createProgram(vsrc, pv, fsrc, fc));
-
-  // “Ç‚İ‚İ‚Ég‚Á‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚é
-  delete vsrc;
-  delete fsrc;
-
-  // ì¬‚µ‚½ƒvƒƒOƒ‰ƒ€ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·
-  return program;
+  // ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä½œæˆå¤±æ•—
+  return 0;
 }
