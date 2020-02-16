@@ -1,5 +1,5 @@
 ﻿// ウィンドウ関連の処理
-#include "GgApplication.h"
+#include "Window.h"
 
 // シェーダー関連の処理
 #include "shader.h"
@@ -107,7 +107,7 @@ static void multiply(GLfloat *m, const GLfloat *m1, const GLfloat *m2)
 //
 // アプリケーションの実行
 //
-void GgApplication::run()
+void app()
 {
   // ウィンドウを作成する
   Window window("ggsample03");
