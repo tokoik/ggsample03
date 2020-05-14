@@ -126,7 +126,7 @@ void app()
   lookat(mv, 3.0f, 4.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   // 頂点属性
-  static constexpr GLfloat position[][3] =
+  static const GLfloat position[][3] =
   {
     { -0.9f, -0.9f, -0.9f },  // (0)
     {  0.9f, -0.9f, -0.9f },  // (1)
@@ -137,10 +137,10 @@ void app()
     {  0.9f,  0.9f,  0.9f },  // (6)
     { -0.9f,  0.9f,  0.9f },  // (7)
   };
-  static constexpr int vertices(sizeof position / sizeof position[0]);
+  constexpr int vertices(sizeof position / sizeof position[0]);
 
   // 頂点インデックス
-  static constexpr GLuint index[] =
+  static const GLuint index[] =
   {
     0, 1,
     1, 2,
@@ -155,7 +155,7 @@ void app()
     6, 7,
     7, 4,
   };
-  static constexpr GLuint lines(sizeof index / sizeof index[0]);
+  constexpr GLuint lines(sizeof index / sizeof index[0]);
 
   // 頂点配列オブジェクトの作成
   const GLuint vao(createObject(vertices, position, lines, index));
