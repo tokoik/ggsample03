@@ -8,6 +8,22 @@
 #include "object.h"
 
 //
+// 4 行 4 列の行列の積を求める
+//
+//   m ← m1 × m2
+//
+static void multiply(GLfloat *m, const GLfloat *m1, const GLfloat *m2)
+{
+  for (int i = 0; i < 16; ++i)
+  {
+    int j = i & 3, k = i & ~3;
+
+    // 配列変数に行列が転置された状態で格納されていることを考慮している
+    m[i] = m1[0 + j] * m2[k + 0] + m1[4 + j] * m2[k + 1] + m1[8 + j] * m2[k + 2] + m1[12 + j] * m2[k + 3];
+  }
+}
+
+//
 // 単位行列を設定する
 //
 //   m: 単位行列を格納する配列
@@ -86,22 +102,6 @@ static void lookat(GLfloat *m, float ex, float ey, float ez, float tx, float ty,
 {
   // 【宿題】ここを解答してください（loadIdentity() を置き換えてください）
   loadIdentity(m);
-}
-
-//
-// 4 行 4 列の行列の積を求める
-//
-//   m ← m1 × m2
-//
-static void multiply(GLfloat *m, const GLfloat *m1, const GLfloat *m2)
-{
-  for (int i = 0; i < 16; ++i)
-  {
-    int j = i & 3, k = i & ~3;
-
-    // 配列変数に行列が転置された状態で格納されていることを考慮している
-    m[i] = m1[0 + j] * m2[k + 0] + m1[4 + j] * m2[k + 1] + m1[8 + j] * m2[k + 2] + m1[12 + j] * m2[k + 3];
-  }
 }
 
 //
