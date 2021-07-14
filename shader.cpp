@@ -14,7 +14,7 @@ using namespace gg;
 //   str: コンパイルエラーが発生した場所を示す文字列
 //   戻り値: コンパイルに成功していたら GL_TRUE
 //
-static GLboolean printShaderInfoLog(GLuint shader, const char *str)
+static GLboolean printShaderInfoLog(GLuint shader, const char* str)
 {
   // コンパイル結果を取得する
   GLint status;
@@ -77,8 +77,8 @@ static GLboolean printProgramInfoLog(GLuint program)
 //   frag: フラグメントシェーダのコンパイル時のメッセージに追加する文字列
 //   戻り値: プログラムオブジェクト名
 //
-GLuint createProgram(const char *vsrc, const char *pv, const char *fsrc, const char *fc,
-  const char *vert, const char *frag)
+GLuint createProgram(const char* vsrc, const char* pv, const char* fsrc, const char* fc,
+  const char* vert, const char* frag)
 {
   // 空のプログラムオブジェクトを作成する
   const GLuint program(glCreateProgram());
@@ -129,7 +129,7 @@ GLuint createProgram(const char *vsrc, const char *pv, const char *fsrc, const c
 //   name: シェーダのソースファイル名
 //   戻り値: ソースファイルを読み込んだメモリのポインタ
 //
-static bool readShaderSource(const char *name, std::vector<GLchar> &src)
+static bool readShaderSource(const char* name, std::vector<GLchar>& src)
 {
   // ファイル名が NULL ならそのまま戻る
   if (name == NULL) return true;
@@ -177,7 +177,7 @@ static bool readShaderSource(const char *name, std::vector<GLchar> &src)
 //   fc: フラグメントシェーダのソースプログラム中の out 変数名の文字列
 //   戻り値: プログラムオブジェクト名
 //
-GLuint loadProgram(const char *vert, const char *pv, const char *frag, const char *fc)
+GLuint loadProgram(const char* vert, const char* pv, const char* frag, const char* fc)
 {
   // シェーダのソースファイルを読み込む
   std::vector<GLchar> vsrc, fsrc;

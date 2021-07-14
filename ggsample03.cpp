@@ -1,5 +1,7 @@
-﻿// ウィンドウ関連の処理
-#include "Window.h"
+﻿//
+// ゲームグラフィックス特論宿題アプリケーション
+//
+#include "GgApp.h"
 
 // シェーダー関連の処理
 #include "shader.h"
@@ -105,28 +107,28 @@ static void lookat(GLfloat *m, float ex, float ey, float ez, float tx, float ty,
 }
 
 //
-// アプリケーションの実行
+// アプリケーション本体
 //
-void app()
+int GgApp::main(int argc, const char* const* argv)
 {
   // ウィンドウを作成する
-  Window window("ggsample03");
+  Window window{ "ggsample03" };
 
   // 背景色を指定する
   glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
   // プログラムオブジェクトの作成
-  const GLuint program(loadProgram("ggsample03.vert", "pv", "ggsample03.frag", "fc"));
+  const auto program{ loadProgram("ggsample03.vert", "pv", "ggsample03.frag", "fc") };
 
   // uniform 変数のインデックスの検索（見つからなければ -1）
-  const GLint mcLoc(glGetUniformLocation(program, "mc"));
+  const auto mcLoc{ glGetUniformLocation(program, "mc") };
 
   // ビュー変換行列を mv に求める
   GLfloat mv[16];
   lookat(mv, 3.0f, 4.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
   // 頂点属性
-  static const GLfloat position[][3] =
+  static const GLfloat position[][3]
   {
     { -0.9f, -0.9f, -0.9f },  // (0)
     {  0.9f, -0.9f, -0.9f },  // (1)
@@ -137,10 +139,12 @@ void app()
     {  0.9f,  0.9f,  0.9f },  // (6)
     { -0.9f,  0.9f,  0.9f },  // (7)
   };
-  constexpr int vertices(sizeof position / sizeof position[0]);
+
+  // 頂点数
+  constexpr auto vertices{ static_cast<GLuint>(std::size(position)) };
 
   // 頂点インデックス
-  static const GLuint index[] =
+  static const GLuint index[]
   {
     0, 1,
     1, 2,
@@ -155,10 +159,12 @@ void app()
     6, 7,
     7, 4,
   };
-  constexpr GLuint lines(sizeof index / sizeof index[0]);
+
+  // 稜線数
+  constexpr auto lines{ static_cast<GLuint>(std::size(index)) };
 
   // 頂点配列オブジェクトの作成
-  const GLuint vao(createObject(vertices, position, lines, index));
+  const auto vao{ createObject(vertices, position, lines, index) };
 
   // ウィンドウが開いている間繰り返す
   while (window)
@@ -195,4 +201,6 @@ void app()
     // カラーバッファを入れ替えてイベントを取り出す
     window.swapBuffers();
   }
+
+  return 0;
 }
