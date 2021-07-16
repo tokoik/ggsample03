@@ -3,18 +3,23 @@
 //
 #include "GgApp.h"
 
-// シェーダー関連の処理
-#include "shader.h"
+// プロジェクト名
+#ifndef PROJECT_NAME
+#  define PROJECT_NAME "ggsample03"
+#endif
 
 // オブジェクト関連の処理
 #include "object.h"
+
+// シェーダー関連の処理
+#include "shader.h"
 
 //
 // 4 行 4 列の行列の積を求める
 //
 //   m ← m1 × m2
 //
-static void multiply(GLfloat *m, const GLfloat *m1, const GLfloat *m2)
+static void multiply(GLfloat* m, const GLfloat* m1, const GLfloat* m2)
 {
   for (int i = 0; i < 16; ++i)
   {
@@ -30,7 +35,7 @@ static void multiply(GLfloat *m, const GLfloat *m1, const GLfloat *m2)
 //
 //   m: 単位行列を格納する配列
 //
-static void loadIdentity(GLfloat *m)
+static void loadIdentity(GLfloat* m)
 {
   m[ 0] = m[ 5] = m[10] = m[15] = 1.0f;
   m[ 1] = m[ 2] = m[ 3] = m[ 4] =
@@ -46,15 +51,15 @@ static void loadIdentity(GLfloat *m)
 //   bottom, top: ビューボリュームの上下端
 //   zNear, zFar: 前方面および後方面までの距離
 //
-static void ortho(GLfloat *m, float left, float right, float bottom, float top, float zNear, float zFar)
+static void ortho(GLfloat* m, float left, float right, float bottom, float top, float zNear, float zFar)
 {
-  m[ 0] =  2.0f / (right - left);
-  m[ 5] =  2.0f / (top - bottom);
+  m[ 0] = 2.0f / (right - left);
+  m[ 5] = 2.0f / (top - bottom);
   m[10] = -2.0f / (zFar - zNear);
   m[12] = -(right + left) / (right - left);
   m[13] = -(top + bottom) / (top - bottom);
   m[14] = -(zFar + zNear) / (zFar - zNear);
-  m[15] =  1.0f;
+  m[15] = 1.0f;
   m[ 1] = m[ 2] = m[ 3] = m[ 4] = m[ 6] = m[ 7] = m[ 8] = m[ 9] = m[11] = 0.0f;
 }
 
@@ -66,12 +71,12 @@ static void ortho(GLfloat *m, float left, float right, float bottom, float top, 
 //   bottom, top: 前方面の上下端
 //   zNear, zFar: 前方面および後方面までの距離
 //
-static void frustum(GLfloat *m, float left, float right, float bottom, float top, float zNear, float zFar)
+static void frustum(GLfloat* m, float left, float right, float bottom, float top, float zNear, float zFar)
 {
-  m[ 0] =  2.0f * zNear / (right - left);
-  m[ 5] =  2.0f * zNear / (top - bottom);
-  m[ 8] =  (right + left) / (right - left);
-  m[ 9] =  (top + bottom) / (top - bottom);
+  m[ 0] = 2.0f * zNear / (right - left);
+  m[ 5] = 2.0f * zNear / (top - bottom);
+  m[ 8] = (right + left) / (right - left);
+  m[ 9] = (top + bottom) / (top - bottom);
   m[10] = -(zFar + zNear) / (zFar - zNear);
   m[11] = -1.0f;
   m[14] = -2.0f * zFar * zNear / (zFar - zNear);
@@ -86,7 +91,7 @@ static void frustum(GLfloat *m, float left, float right, float bottom, float top
 //   aspect: ウィンドウの縦横比
 //   zNear, zFar: 前方面および後方面までの距離
 //
-static void perspective(GLfloat *m, float fovy, float aspect, float zNear, float zFar)
+static void perspective(GLfloat* m, float fovy, float aspect, float zNear, float zFar)
 {
   // 【宿題】ここを解答してください（loadIdentity() を置き換えてください）
   loadIdentity(m);
@@ -100,7 +105,7 @@ static void perspective(GLfloat *m, float fovy, float aspect, float zNear, float
 //   tx, ty, tz: 目標点の位置
 //   ux, uy, uz: 上方向のベクトル
 //
-static void lookat(GLfloat *m, float ex, float ey, float ez, float tx, float ty, float tz, float ux, float uy, float uz)
+static void lookat(GLfloat* m, float ex, float ey, float ez, float tx, float ty, float tz, float ux, float uy, float uz)
 {
   // 【宿題】ここを解答してください（loadIdentity() を置き換えてください）
   loadIdentity(m);
@@ -111,14 +116,14 @@ static void lookat(GLfloat *m, float ex, float ey, float ez, float tx, float ty,
 //
 int GgApp::main(int argc, const char* const* argv)
 {
-  // ウィンドウを作成する
-  Window window{ "ggsample03" };
+  // ウィンドウを作成する (この行は変更しないでください)
+  Window window{ argc > 1 ? argv[1] : PROJECT_NAME };
 
   // 背景色を指定する
   glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
   // プログラムオブジェクトの作成
-  const auto program{ loadProgram("ggsample03.vert", "pv", "ggsample03.frag", "fc") };
+  const auto program{ loadProgram(PROJECT_NAME ".vert", "pv", PROJECT_NAME ".frag", "fc") };
 
   // uniform 変数のインデックスの検索（見つからなければ -1）
   const auto mcLoc{ glGetUniformLocation(program, "mc") };

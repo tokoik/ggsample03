@@ -156,6 +156,7 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ggsample03.frag" />
