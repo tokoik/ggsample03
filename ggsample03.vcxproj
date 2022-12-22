@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="gg.cpp" />
+    <ClCompile Include="GgApp.cpp" />
     <ClCompile Include="ggsample03.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="object.cpp" />
@@ -160,7 +161,6 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="shader.h" />
-    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ggsample03.frag" />

@@ -10,6 +10,7 @@
 		7D81C5EE20234F7D00FD56D4 /* ggsample03.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D81C5ED20234F7D00FD56D4 /* ggsample03.cpp */; };
 		7DA3D8E01732ABC50032A4C1 /* object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3D8DF1732ABC50032A4C1 /* object.cpp */; };
 		7DA3D8E31732ABDB0032A4C1 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3D8E21732ABDB0032A4C1 /* shader.cpp */; };
+		7DA620E329543CFA00849AD5 /* GgApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DA620E229543CFA00849AD5 /* GgApp.cpp */; };
 		7DBB8B4723F8F8F300E7910B /* gg.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB8B4623F8F8F300E7910B /* gg.icns */; };
 		7DE0452E150E1F3900D946BA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DE0452D150E1F3900D946BA /* main.cpp */; };
 		7DE04531150E1F4600D946BA /* gg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DE04530150E1F4600D946BA /* gg.cpp */; };
@@ -25,7 +26,7 @@
 		7DA3D8DF1732ABC50032A4C1 /* object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = object.cpp; sourceTree = "<group>"; tabWidth = 2; };
 		7DA3D8E11732ABD00032A4C1 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = shader.h; sourceTree = "<group>"; tabWidth = 2; };
 		7DA3D8E21732ABDB0032A4C1 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = shader.cpp; sourceTree = "<group>"; tabWidth = 2; };
-		7DBB8B4523F8F8E900E7910B /* Window.h */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Window.h; sourceTree = "<group>"; tabWidth = 2; };
+		7DA620E229543CFA00849AD5 /* GgApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GgApp.cpp; sourceTree = "<group>"; };
 		7DBB8B4623F8F8F300E7910B /* gg.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = gg.icns; sourceTree = "<group>"; };
 		7DD627D126CA9C5400C0CA0F /* GgApp.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GgApp.h; sourceTree = "<group>"; tabWidth = 2; };
 		7DE0452D150E1F3900D946BA /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = main.cpp; sourceTree = "<group>"; tabWidth = 2; };
@@ -56,7 +57,7 @@
 				7DA3D8E11732ABD00032A4C1 /* shader.h */,
 				7DA3D8E21732ABDB0032A4C1 /* shader.cpp */,
 				7DD627D126CA9C5400C0CA0F /* GgApp.h */,
-				7DBB8B4523F8F8E900E7910B /* Window.h */,
+				7DA620E229543CFA00849AD5 /* GgApp.cpp */,
 				7DE0452F150E1F4000D946BA /* gg.h */,
 				7DE04530150E1F4600D946BA /* gg.cpp */,
 				7DE04533150E1F5500D946BA /* ggsample03.vert */,
@@ -147,6 +148,7 @@
 				7DA3D8E01732ABC50032A4C1 /* object.cpp in Sources */,
 				7DA3D8E31732ABDB0032A4C1 /* shader.cpp in Sources */,
 				7D81C5EE20234F7D00FD56D4 /* ggsample03.cpp in Sources */,
+				7DA620E329543CFA00849AD5 /* GgApp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
